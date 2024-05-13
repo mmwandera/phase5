@@ -1,0 +1,48 @@
+.admin-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 30px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.admin-details-container {
+  flex-grow: 1;
+}
+
+.admin-buttons-container {
+  display: flex;
+}
+
+.admin-edit-button {
+  padding: 8px 16px;
+  margin-right: 8px;
+  color: #4C1A57; /* Primary color */
+  border: 2px solid #4C1A57; /* Primary color */
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  background-color: transparent;
+}
+
+.admin-edit-button:hover {
+  background-color: #4C1A57; /* Primary color */
+  color: #fff;
+}
+
+
+.admin-delete-button {
+  padding: 8px 16px;
+  background-color: #FF0000; /* Red color */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.admin-delete-button:hover {
+  background-color: #CC0000; /* Darker red color on hover */
+}

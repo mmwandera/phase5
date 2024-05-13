@@ -1,0 +1,67 @@
+/* addCourse.css */
+
+.add-course-main {
+  padding: 20px;
+}
+
+.add-course-heading {
+  margin-bottom: 20px;
+}
+
+.course-form {
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.module-heading {
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.module-form {
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="file"],
+textarea {
+  width: calc(100% - 20px); /* Adjusted width */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 150px;
+}
+
+.submit-button {
+  padding: 10px 20px;
+  background-color: #4c1a57;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #3a1342;
+}
+
+/* Increase space between button and footer */
+.footer {
+  margin-top: 40px;
+}

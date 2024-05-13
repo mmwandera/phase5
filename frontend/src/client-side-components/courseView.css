@@ -1,0 +1,23 @@
+.course-view {
+  padding: 20px;
+}
+
+.course-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.course-content {
+  display: flex;
+}
+
+.course-modules {
+  flex: 2; /* Updated to take up more space */
+  margin-right: 20px;
+  border-right: 1px solid #ccc; /* Added border to create separation */
+  padding-right: 20px; /* Added padding for spacing */
+}
+
+.course-media {
+  flex: 3; /* Updated to take up less space */
+}

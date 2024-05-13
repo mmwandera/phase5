@@ -1,0 +1,57 @@
+#root {
+  margin: 0 2rem;
+  padding: 1rem 1rem;
+  background-color: #fdfdfd;
+}
+
+body {
+  font-family: 'Anek Devanagari', sans-serif;
+  font-size: 16px;
+  color: #000;
+}
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+input::placeholder {
+  font-family: 'Anek Devanagari', sans-serif !important; 
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+}
+
+h3 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+h4 {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+h5 {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+h6 {
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}

@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "title": "Introduction to Web Development",
+    "thumbnail": "https://images.pexels.com/photos/270632/pexels-photo-270632.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "category": "Web Development",
+    "price": "49.99"
+  },
+  {
+    "id": 2,
+    "title": "JavaScript Fundamentals",
+    "thumbnail": "https://images.pexels.com/photos/4491461/pexels-photo-4491461.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "category": "Web Development",
+    "price": "29.99"
+  },
+  {
+    "id": 3,
+    "title": "React.js Crash Course",
+    "thumbnail": "https://images.pexels.com/photos/5905558/pexels-photo-5905558.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "category": "Web Development",
+    "price": "39.99"
+  }
+]

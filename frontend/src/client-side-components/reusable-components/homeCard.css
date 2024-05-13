@@ -1,0 +1,59 @@
+/* homeCard.css */
+
+.home-card {
+    width: 300px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .home-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .home-card-thumbnail {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  
+  .home-card-details {
+    padding: 20px;
+  }
+  
+  .home-card-title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333333;
+    
+  }
+  
+  .home-card-info {
+    margin-top: 15px;
+    font-size: 16px;
+  }
+  
+  .home-card-modules{
+    margin-right: 15px;
+    
+  }
+  
+  .home-card-price {
+    margin-right: 15px;
+    font-weight: bold;
+  }
+  
+  .home-card-price {
+    color: #4cdd5f;
+  }
+  
+  .home-card-description {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #666666;
+  }
+  

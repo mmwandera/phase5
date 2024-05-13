@@ -1,0 +1,8 @@
+.home-card-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Three columns with equal width */
+    gap: 20px; /* Gap between each card */
+    margin-bottom: 20px;
+    margin-top: 40px;
+  }
+  

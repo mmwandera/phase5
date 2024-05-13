@@ -1,0 +1,78 @@
+.admin-management {
+  padding: 20px;
+}
+
+.admin-form-container {
+  background-color: #f0f0f0; /* Gray background color */
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px; /* Add some spacing between the form and the card section */
+}
+
+
+.admin-card-container {
+  margin-top: 20px;
+}
+
+.admin-card {
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.admin-details {
+  margin-bottom: 10px;
+}
+
+.admin-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.admin-email {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.admin-buttons button {
+  margin-right: 10px;
+  padding: 8px 16px;
+  background-color: #4C1A57;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.admin-buttons button:hover {
+  background-color: #3a1342;
+}
+
+.delete-button {
+  background-color: #ff4d4f;
+}
+
+.delete-button:hover {
+  background-color: #d9363e;
+}
+
+.admin-form .form-submit-button {
+  margin-top: 10px; /* Add margin */
+  padding: 8px 16px;
+  background-color: #4C1A57;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.admin-form .form-submit-button:hover {
+  background-color: #3a1342;
+}
+

@@ -1,0 +1,84 @@
+/* card.css */
+.card {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.card-thumbnail img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-right: 20px;
+}
+
+.card-details {
+  flex-grow: 1;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.card-category {
+  margin: 5px 0;
+  font-size: 1rem;
+  color: #666;
+}
+
+.card-price {
+  margin: 5px 0;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #4CAF50; /* Green color */
+}
+
+.card-buttons {
+  margin-left: auto;
+}
+
+.edit-button,
+.delete-button {
+  padding: 8px 16px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-button {
+  padding: 8px 16px;
+  margin-right: 8px;
+  color: #4C1A57; /* Primary color */
+  border: 2px solid #4C1A57; /* Primary color */
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  background-color: transparent;
+}
+
+.edit-button:hover {
+  background-color: #4C1A57; /* Primary color */
+  color: #fff;
+}
+
+
+.delete-button {
+  background-color: #ff4d4f;
+  color: #fff;
+}
+
+.chip {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 12px;
+  background-color: #eee;
+  color: #666;
+  font-size: 0.9rem;
+  margin-right: 5px;
+}

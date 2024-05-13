@@ -1,0 +1,11 @@
+.course-module {
+  border: 2px solid #4C1A57;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  transition: border-color 0.3s ease;
+}
+
+.course-module:hover {
+  border-color: #1A4C57; /* Changing border color on hover */
+}
