@@ -47,6 +47,10 @@ textarea {
   min-height: 150px;
 }
 
+.add-module-button {
+  margin-bottom: 40px;
+  background-color: rgba(61, 148, 30, 0.667);
+}
 .submit-button {
   padding: 10px 20px;
   background-color: #4c1a57;
