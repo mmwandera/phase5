@@ -1,5 +1,5 @@
 from config import db, app, bcrypt
-from models import Student, Admin, Course, Module, Message
+from models import Student, Admin, Course, Module, Message, student_courses, admin_courses
 from faker import Faker
 import random
 from sqlalchemy import func
@@ -35,7 +35,6 @@ def generate_fake_course(admin):
     course = Course(title=title, description=description, thumbnail=thumbnail, price=price, admin_id=admin.id)
     return course
 
-
 # Function to generate fake data for Module
 def generate_fake_module(course):
     title = fake.sentence(nb_words=3)
@@ -52,6 +51,17 @@ def generate_fake_message(student):
 # Seed function to populate the database
 def seed_database():
     try:
+        # Delete all existing records
+        db.session.query(Student).delete()
+        db.session.query(Admin).delete()
+        db.session.query(Course).delete()
+        db.session.query(Module).delete()
+        db.session.query(Message).delete()
+        db.session.query(student_courses).delete()
+        db.session.query(admin_courses).delete()
+        db.session.commit()
+        print("✅ Deleted existing records from the database.")
+
         # Create some fake admins
         admins = [generate_fake_admin() for _ in range(3)]
         db.session.add_all(admins)
@@ -70,12 +80,34 @@ def seed_database():
             db.session.add_all(courses)
             db.session.commit()
 
+            # Establishing relationships between admins and courses
+            for course in courses:
+                if course not in admin.courses:
+                    admin.courses.append(course)
+            db.session.commit()
+        print("✅ Established relationships between admins and courses.")
+
         # Create some modules for each course
         for course in Course.query.all():
             modules = [generate_fake_module(course) for _ in range(random.randint(2, 4))]
             db.session.add_all(modules)
             db.session.commit()
         print("✅ Created modules for each course.")
+
+        # Create some messages for each student
+        for student in students:
+            messages = [generate_fake_message(student) for _ in range(random.randint(1, 3))]  # Generate 1 to 3 messages for each student
+            db.session.add_all(messages)
+            db.session.commit()
+        print("✅ Created messages for each student.")
+
+        # Establishing relationships between students and courses
+        for student in students:
+            courses = Course.query.order_by(func.random()).limit(2).all()  # Selecting random courses for each student
+            for course in courses:
+                student.courses.append(course)
+            db.session.commit()
+        print("✅ Established relationships between students and courses.")
 
         print("✅ Seeding completed successfully!")
 
