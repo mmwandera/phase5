@@ -1,17 +1,51 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './adminManagement.css';
-import dummyData from './dummy-data/adminmgt-data.json';
-import AdminCard from './reusable-components/AdminCard';
-import AdminSearchBar from './reusable-components/AdminSearchBar';
 import Footer from './reusable-components/Footer';
 import Header from './reusable-components/Header';
 
 export default function AdminManagement() {
-  const [admins, setAdmins] = useState([]);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: ''
+  });
 
-  useEffect(() => {
-    setAdmins(dummyData);
-  }, []);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('http://127.0.0.1:5000/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+          user_type: 'admin',
+          // You can include additional data like admin name if needed
+        })
+      });
+      if (response.ok) {
+        // Handle success - clear the form or show a success message
+        console.log('Admin added successfully');
+        setFormData({
+          name: '',
+          email: '',
+          password: ''
+        });
+      } else {
+        // Handle error - display an error message or perform other actions
+        console.error('Failed to add admin');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
 
   return (
     <div className="admin-management">
@@ -19,37 +53,21 @@ export default function AdminManagement() {
       <main className="admin-main">
         <div className="admin-form-container">
           <h2 className="form-heading">Add New Admin</h2>
-          <form className="admin-form">
+          <form className="admin-form" onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="name">Admin Name</label>
-              <input type="text" id="name" name="name" placeholder="Enter Admin Name" />
+              <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} placeholder="Enter Admin Name" />
             </div>
             <div className="form-group">
               <label htmlFor="email">Admin Email Address</label>
-              <input type="email" id="email" name="email" placeholder="Enter Admin email address" />
+              <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} placeholder="Enter Admin email address" />
             </div>
             <div className="form-group">
               <label htmlFor="password">Admin Password</label>
-              <input type="password" id="password" name="password" placeholder="Enter Admin password" />
+              <input type="password" id="password" name="password" value={formData.password} onChange={handleChange} placeholder="Enter Admin password" />
             </div>
             <button type="submit" className="form-submit-button">Add Admin</button>
           </form>
-        </div>
-        <div className="admin-card-container">
-          <h2 className="card-heading">Admins</h2>
-          <div className="search-bar-container">
-            <AdminSearchBar />
-          </div>
-          <div className="card-container">
-            {admins.map(admin => (
-              <AdminCard
-                key={admin.id}
-                name={admin.name}
-                email={admin.email}
-                password={admin.password}
-              />
-            ))}
-          </div>
         </div>
       </main>
       <Footer />

@@ -22,7 +22,7 @@ export default function AdminLogin() {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://127.0.0.1:5000/login', {
+      const response = await fetch('http://127.0.0.1:5000/admin-login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -37,6 +37,7 @@ export default function AdminLogin() {
       if (response.ok) {
         // Admin login successful
         console.log(data); // For debugging, you can log the response
+        localStorage.setItem('adminToken', data.token); // Store token in localStorage
         navigate('/dashboard'); // Navigate to '/dashboard' route
       } else {
         // Admin login failed, display error message
