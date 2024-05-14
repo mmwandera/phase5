@@ -95,6 +95,20 @@ def get_admins():
         return jsonify(admins_list), 200
     except Exception as e:
         return jsonify({'message': 'Error fetching admins', 'error': str(e)}), 500
+    
+# Route for deleting admin
+@app.route('/delete-admin/<int:admin_id>', methods=['DELETE'])
+def delete_admin(admin_id):
+    try:
+        admin = Admin.query.get(admin_id)
+        if admin:
+            db.session.delete(admin)
+            db.session.commit()
+            return jsonify({'message': 'Admin deleted successfully'}), 200
+        else:
+            return jsonify({'message': 'Admin not found'}), 404
+    except Exception as e:
+        return jsonify({'message': 'Error deleting admin', 'error': str(e)}), 500
 
 
 if __name__ == '__main__':

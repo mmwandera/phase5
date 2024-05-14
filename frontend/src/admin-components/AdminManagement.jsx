@@ -65,6 +65,10 @@ export default function AdminManagement() {
     }
   };
 
+  const handleDeleteAdmin = (adminId) => {
+    setAdmins(admins.filter(admin => admin.id !== adminId));
+  };
+  
 
   return (
     <div className="admin-management">
@@ -99,9 +103,10 @@ export default function AdminManagement() {
             {admins.map(admin => (
               <AdminCard
                 key={admin.id}
+                id={admin.id}
                 name={admin.name}
                 email={admin.email}
-                password={admin.password}
+                onDelete={handleDeleteAdmin}
               />
             ))}
           </div>
