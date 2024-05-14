@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './adminManagement.css';
 import AdminCard from './reusable-components/AdminCard';
 import AdminSearchBar from './reusable-components/AdminSearchBar';
@@ -12,6 +12,25 @@ export default function AdminManagement() {
   const [password, setPassword] = useState('');
   const [admins, setAdmins] = useState([]);
 
+  useEffect(() => {
+    const fetchAdmins = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:5000/get-admins');
+        if (response.ok) {
+          const adminsData = await response.json();
+          setAdmins(adminsData);
+          console.log(adminsData);
+        } else {
+          alert('Failed to fetch admins');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Failed to fetch admins');
+      }
+    };
+
+    fetchAdmins();
+  }, []);
   const handleSubmit = async (event) => {
     event.preventDefault();
 

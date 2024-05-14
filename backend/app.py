@@ -85,8 +85,16 @@ def add_admin():
 
     # Return a success message
     return jsonify({'message': 'Admin added successfully'}), 201
-    
 
+# Route to get all admins   
+@app.route('/get-admins', methods=['GET'])
+def get_admins():
+    try:
+        admins = Admin.query.all()
+        admins_list = [{'id': admin.id, 'name': admin.name, 'email': admin.email, } for admin in admins]
+        return jsonify(admins_list), 200
+    except Exception as e:
+        return jsonify({'message': 'Error fetching admins', 'error': str(e)}), 500
 
 
 if __name__ == '__main__':
