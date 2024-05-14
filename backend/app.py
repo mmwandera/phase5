@@ -87,9 +87,6 @@ def add_admin():
     return jsonify({'message': 'Admin added successfully'}), 201
     
 
-# Route to add a new admin
-
-
 
 
 if __name__ == '__main__':
