@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import './addCourse.css'; // Ensure this CSS file includes styles that make the form more appealing
 import Footer from './reusable-components/Footer';
 import Header from './reusable-components/Header';
@@ -10,30 +10,35 @@ export default function AddCourse() {
     description: '',
     thumbnail: '',
     price: '',
-    modules: Array(10).fill({ title: '', media: '', notes: '' }), // Initialize with 10 empty modules
+    modules: [], // Initialize with an empty array for modules
   });
 
-  // Function to handle input changes for course details
   const handleInputChange = (e) => {
     setCourse({ ...course, [e.target.name]: e.target.value });
   };
 
-  // Function to handle changes in module details
   const handleModuleChange = (index, e) => {
     const newModules = [...course.modules];
     newModules[index] = { ...newModules[index], [e.target.name]: e.target.value };
     setCourse({ ...course, modules: newModules });
   };
 
-  // Function to handle form submission
+  const addModule = () => {
+    setCourse({
+      ...course,
+      modules: [...course.modules, { title: '', media: '', notes: '' }],
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const adminId = localStorage.getItem('adminId'); // Retrieve the admin ID from local storage
+    // Assuming admin_id is stored in localStorage or obtained from the current session
+    const adminId = localStorage.getItem('adminId'); // Ensure you have the admin ID stored
 
     try {
       await axios.post('http://localhost:5000/add-course', { ...course, admin_id: adminId });
       alert('Course added successfully');
-      // Optionally, clear the form or redirect the user to another page
+      // Reset course state or redirect as needed
     } catch (error) {
       console.error('Error adding course:', error);
       alert('Error adding course');
@@ -46,7 +51,6 @@ export default function AddCourse() {
       <main className="add-course-main">
         <h1>Add New Course</h1>
         <form onSubmit={handleSubmit} className="course-form">
-          {/* Course Details Inputs */}
           <label>
             Course Title:
             <input type="text" name="title" value={course.title} onChange={handleInputChange} />
@@ -63,12 +67,9 @@ export default function AddCourse() {
             Course Price:
             <input type="text" name="price" value={course.price} onChange={handleInputChange} />
           </label>
-
-          {/* Modules Inputs */}
           <h2>Modules</h2>
           {course.modules.map((module, index) => (
             <div key={index} className="module-section">
-              <h3>Module {index + 1}</h3>
               <label>
                 Module Title:
                 <input type="text" name="title" value={module.title} onChange={(e) => handleModuleChange(index, e)} />
@@ -83,7 +84,7 @@ export default function AddCourse() {
               </label>
             </div>
           ))}
-
+          <button type="button" onClick={addModule} className="add-module-button">Add Module</button>
           <button type="submit" className="submit-button">Submit Course</button>
         </form>
       </main>
