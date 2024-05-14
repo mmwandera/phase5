@@ -150,6 +150,6 @@ def add_course():
 
     return jsonify({'message': 'Course and modules added successfully', 'course_id': new_course.id}), 201
 
-
+    
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
