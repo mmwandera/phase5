@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './addCourse.css'; // Ensure this CSS file includes styles that make the form more appealing
 import Footer from './reusable-components/Footer';
 import Header from './reusable-components/Header';
