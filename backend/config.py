@@ -10,7 +10,7 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] ="sqlite:///student_portal.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATION"] = True
 app.config["SECRET_KEY"] = "92256b9d8a05214dab4362d83c9e17d1"
-stripe.api_key = 'sk_test_51PEpckRx876YYvellXk4uZw1hSPwac0nRQKYaCMb5QbYIpbgacTy6xEGf0x6A0JMXdEF17Igg111x9pL5wWFvd7300uTywvxxP'
+# stripe.api_key = 'sk_test_51PEpckRx876YYvellXk4uZw1hSPwac0nRQKYaCMb5QbYIpbgacTy6xEGf0x6A0JMXdEF17Igg111x9pL5wWFvd7300uTywvxxP'
 
 app.json.compact=False
 db =SQLAlchemy()

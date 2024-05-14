@@ -30,8 +30,8 @@ def signup():
 
     return jsonify({'message': 'User signed up successfully'}), 201
 
-# Login route
-@app.route('/login', methods=['POST'])
+# Student Login route
+@app.route('/student-login', methods=['POST'])
 def login():
     # Get data from the request
     data = request.get_json()
@@ -48,6 +48,46 @@ def login():
         return jsonify({'message': 'Login successful', 'student_id': student.id}), 200
     else:
         return jsonify({'message': 'Invalid email or password'}), 401
+    
+# Admin login route
+@app.route('/admin-login', methods=['POST'])
+def admin_login():
+    # Get data from the request
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+
+    # Find the admin by email
+    admin = Admin.query.filter_by(email=email).first()
+
+    # Check if the admin exists and if the password is correct
+    if admin and admin.authenticate(password):
+        # Store the admin's ID in the session
+        session['admin_id'] = admin.id
+        return jsonify({'message': 'Admin login successful', 'admin_id': admin.id}), 200
+    else:
+        return jsonify({'message': 'Invalid email or password'}), 401
+    
+
+# Route to add a new admin
+@app.route('/add-admin', methods=['POST'])
+def add_admin():
+    # Get data from the request
+    data = request.get_json()
+    name = data.get('name')
+    email = data.get('email')
+    password = data.get('password')
+
+    # Create a new admin instance
+    new_admin = Admin(name=name, email=email, password=password)
+
+    # Add the new admin to the database
+    db.session.add(new_admin)
+    db.session.commit()
+
+    # Return a success message
+    return jsonify({'message': 'Admin added successfully'}), 201
+
 
 
 if __name__ == '__main__':

@@ -1,22 +1,12 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import logo from '../assets/MasomoLMS-auth.svg';
 import './auth.css';
 
 export default function AdminLogin() {
-  const navigate = useNavigate(); // Initialize useNavigate
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  });
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,27 +15,28 @@ export default function AdminLogin() {
       const response = await fetch('http://127.0.0.1:5000/admin-login', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password
-        })
+        body: JSON.stringify({ email, password }),
       });
-      const data = await response.json();
-
+      
       if (response.ok) {
-        // Admin login successful
-        console.log(data); // For debugging, you can log the response
-        localStorage.setItem('adminToken', data.token); // Store token in localStorage
-        navigate('/dashboard'); // Navigate to '/dashboard' route
+        // Extract admin ID from response
+        const data = await response.json();
+        const adminId = data.admin_id;
+        
+        // Store admin ID in localStorage
+        localStorage.setItem('adminId', adminId);
+
+        // Redirect to admin dashboard or any other page upon successful login
+        window.location.href = '/dashboard';
       } else {
-        // Admin login failed, display error message
-        setError(data.message || 'Admin login failed');
+        const data = await response.json();
+        setError(data.message);
       }
     } catch (error) {
-      console.error('Error during admin login:', error);
-      setError('An error occurred during admin login. Please try again later.');
+      console.error('Error logging in:', error);
+      setError('Error logging in. Please try again later.');
     }
   };
 
@@ -53,18 +44,33 @@ export default function AdminLogin() {
     <div className="auth-container">
       <img src={logo} alt="MasomoLMS Logo" className="auth-logo" />
       <h2>Admin Login</h2>
-      {error && <div className="alert alert-danger">{error}</div>}
       <form onSubmit={handleSubmit}>
         <div className="auth-form-group">
           <label htmlFor="email">Email Address</label>
-          <input type="email" id="email" name="email" placeholder="Enter your email address" value={formData.email} onChange={handleChange} />
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your email address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </div>
         <div className="auth-form-group">
           <label htmlFor="password">Password</label>
-          <input type="password" id="password" name="password" placeholder="Enter your password" value={formData.password} onChange={handleChange} />
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
         </div>
         <button type="submit" className="auth-primary-button">Login</button>
       </form>
+      {error && <p className="error">{error}</p>}
+      <p>Don&apos;t have an account? <Link to="/admin-sign-up">Sign Up</Link></p>
     </div>
   );
 }
