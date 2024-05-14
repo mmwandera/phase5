@@ -9,13 +9,13 @@ export default function Home() {
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
-    // Fetch data from the /course route when the component mounts
+    // Fetch data from the /courses route when the component mounts
     fetchCourses();
   }, []);
 
   const fetchCourses = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:5000/course'); // Replace with your actual API endpoint
+      const response = await fetch('http://127.0.0.1:5000/courses'); // Updated API endpoint
       const data = await response.json();
       if (response.ok) {
         // Update the state with the fetched courses
@@ -45,7 +45,7 @@ export default function Home() {
               thumbnail={course.thumbnail}
               description={course.description}
               title={course.title}
-              modules={course.modules}
+              modules={course.modules} // Pass the count of modules
               price={course.price}
             />
           ))}

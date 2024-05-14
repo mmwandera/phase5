@@ -150,6 +150,23 @@ def add_course():
 
     return jsonify({'message': 'Course and modules added successfully', 'course_id': new_course.id}), 201
 
+# Route to fetch all courses
+@app.route('/courses', methods=['GET'])
+def get_courses():
+    try:
+        courses = Course.query.all()
+        courses_list = [{
+            'id': course.id,
+            'title': course.title,
+            'description': course.description,
+            'thumbnail': course.thumbnail,
+            'price': course.price,
+            'modules': len(course.modules)  # Return the count of modules
+        } for course in courses]
+        return jsonify({'courses': courses_list}), 200
+    except Exception as e:
+        return jsonify({'message': 'Error fetching courses', 'error': str(e)}), 500
+
     
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
