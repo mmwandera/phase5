@@ -1,6 +1,6 @@
 from config import app, db, stripe
 from flask import jsonify, request, make_response, redirect, url_for, session
-from models import Course, Student, Admin
+from models import Course, Student, Admin, Module, Message
 import jwt
 from functools import wraps
 import datetime
@@ -109,6 +109,46 @@ def delete_admin(admin_id):
             return jsonify({'message': 'Admin not found'}), 404
     except Exception as e:
         return jsonify({'message': 'Error deleting admin', 'error': str(e)}), 500
+
+# Route for adding New Course
+@app.route('/add-course', methods=['POST'])
+def add_course():
+    data = request.get_json()
+
+    # Extract admin ID from the request, assuming it's sent in the request body
+    admin_id = data.get('admin_id')
+    admin = Admin.query.get(admin_id)
+    if not admin:
+        return jsonify({'message': 'Admin not found'}), 404
+
+    # Extract course details
+    title = data.get('title')
+    description = data.get('description')
+    thumbnail = data.get('thumbnail')
+    price = data.get('price')
+
+    # Create a new Course instance
+    new_course = Course(title=title, description=description, thumbnail=thumbnail, price=price, admin_id=admin.id)
+
+    # Add the new course to the session
+    db.session.add(new_course)
+    db.session.commit()
+
+    # Now, add modules for this course
+    modules = data.get('modules')  # Expecting modules to be a list of dictionaries
+    for module_data in modules:
+        new_module = Module(
+            title=module_data['title'],
+            media=module_data['media'],
+            notes=module_data['notes'],
+            course_id=new_course.id  # Use the ID of the newly created course
+        )
+        db.session.add(new_module)
+
+    # Commit the session to save modules
+    db.session.commit()
+
+    return jsonify({'message': 'Course and modules added successfully', 'course_id': new_course.id}), 201
 
 
 if __name__ == '__main__':
