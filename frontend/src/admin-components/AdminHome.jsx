@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
+import dummyData from './dummy-data/dashboard-data.json';
 import Card from './reusable-components/Card';
 import Footer from './reusable-components/Footer';
 import Header from './reusable-components/Header';
@@ -9,27 +9,14 @@ export default function AdminHome() {
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
-    fetchAdminCourses();
+    setCourses(dummyData);
   }, []);
-
-  const fetchAdminCourses = async () => {
-    try {
-      const response = await axios.get('http://127.0.0.1:5000/courses/admin', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
-      setCourses(response.data.courses);
-    } catch (error) {
-      console.error('Error fetching admin courses:', error);
-    }
-  };
 
   return (
     <div className="admin-home">
       <Header />
       <main className="admin-main">
-        <h1 className="welcome-message">Welcome, Admin</h1>
+        <h1 className="welcome-message">Welcome, User</h1>
         <div className="search-bar-container">
           <SearchBar />
         </div>

@@ -15,7 +15,7 @@ export default function Card({ title, thumbnail, category, price }) {
         <p className="card-price">${price}</p>
       </div>
       <div className="card-buttons">
-        <button className="edit-button">Edit</button>
+        {/* <button className="edit-button">Edit</button> */}
         <button className="delete-button">Delete</button>
       </div>
     </div>
