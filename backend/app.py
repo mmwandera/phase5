@@ -167,6 +167,40 @@ def get_courses():
     except Exception as e:
         return jsonify({'message': 'Error fetching courses', 'error': str(e)}), 500
 
+# Route for creating a Stripe Checkout Session
+@app.route('/create-checkout-session', methods=['POST'])
+@app.route('/create-checkout-session', methods=['POST'])
+def create_checkout_session():
+    try:
+        data = request.get_json()
+        course_id = data.get('course_id')
+        course = Course.query.get(course_id)
+
+        if not course:
+            return jsonify({'message': 'Course not found'}), 404
+
+        # Create a new Stripe Checkout Session
+        session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[{
+                'price_data': {
+                    'currency': 'usd',
+                    'product_data': {
+                        'name': course.title,
+                        'description': course.description,
+                    },
+                    'unit_amount': int(course.price * 100),  # Stripe expects the amount in cents
+                },
+                'quantity': 1,
+            }],
+            mode='payment',
+            success_url='http://localhost:3000/success',  # Update with your success URL
+            cancel_url='http://localhost:3000/cancel',    # Update with your cancel URL
+        )
+
+        return jsonify({'url': session.url})
+    except Exception as e:
+        return jsonify({'message': 'Error creating checkout session', 'error': str(e)}), 500
     
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
