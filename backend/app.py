@@ -286,5 +286,21 @@ def get_messages(user_id):
     except Exception as e:
         return jsonify({'message': 'Error fetching messages', 'error': str(e)}), 500
 
+# Route to delete user messages
+@app.route('/delete-message/<int:message_id>', methods=['DELETE'])
+def delete_message(message_id):
+    try:
+        message = Message.query.get(message_id)
+        if not message:
+            return jsonify({'message': 'Message not found'}), 404
+
+        db.session.delete(message)
+        db.session.commit()
+        return jsonify({'message': 'Message deleted successfully'}), 200
+    except Exception as e:
+        app.logger.error(f'Error deleting message {message_id}: {e}')
+        return jsonify({'message': 'Error deleting message', 'error': str(e)}), 500
+
+
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

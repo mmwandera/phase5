@@ -36,6 +36,10 @@ export default function Profile() {
     fetchUserMessages();
   }, []);
 
+  const handleDeleteMessage = (messageId) => {
+    setMessages(messages.filter(message => message.id !== messageId));
+  };
+
   return (
     <div className="profile">
       <HomeHeader />
@@ -51,8 +55,10 @@ export default function Profile() {
             messages.map(message => (
               <MessageCards
                 key={message.id}
+                id={message.id}
                 title={message.title}
                 message={message.content}
+                onDelete={handleDeleteMessage}
               />
             ))
           ) : (
