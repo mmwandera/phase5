@@ -1,5 +1,5 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
-import dummyData from './dummy-data/dashboard-data.json';
 import Card from './reusable-components/Card';
 import Footer from './reusable-components/Footer';
 import Header from './reusable-components/Header';
@@ -9,7 +9,14 @@ export default function AdminHome() {
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
-    setCourses(dummyData);
+    axios.get('http://127.0.0.1:5000/admin-course')
+      .then(response => {
+        setCourses(response.data.courses);
+        console.log(response.data.courses);
+      })
+      .catch(error => {
+        console.error('Error fetching courses:', error);
+      });
   }, []);
 
   return (

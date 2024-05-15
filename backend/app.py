@@ -338,6 +338,23 @@ def get_students():
     except Exception as e:
         app.logger.error(f'Error fetching students: {e}')
         return jsonify({'message': 'Error fetching students', 'error': str(e)}), 500
+    
+# Route to fetch all courses
+@app.route('/admin-course', methods=['GET'])
+def get_all_courses_for_admin():
+    try:
+        courses = Course.query.all()
+        courses_list = [{
+            'id': course.id,
+            'title': course.title,
+            'description': course.description,
+            'thumbnail': course.thumbnail,
+            'price': course.price,
+            'category': course.category  # Assuming 'category' is a field in the Course model
+        } for course in courses]
+        return jsonify({'courses': courses_list}), 200
+    except Exception as e:
+        return jsonify({'message': 'Error fetching courses', 'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
