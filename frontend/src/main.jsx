@@ -75,7 +75,7 @@ const router = createBrowserRouter([
     element: <AddCourse />,
   },
   {
-    path: "/user-management/send-message",
+    path: "/user-management/send-message/:studentId",
     element: <SendMessage />,
   },
 ]);
