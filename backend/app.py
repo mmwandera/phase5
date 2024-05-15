@@ -302,15 +302,19 @@ def delete_message(message_id):
         return jsonify({'message': 'Error deleting message', 'error': str(e)}), 500
 
 # Route for sending messages
-@app.route('/send-message', methods=['POST'])
-def send_message():
+@app.route('/send-message/<int:student_id>', methods=['POST'])
+def send_message(student_id):
     try:
         data = request.get_json()
-        student_id = data.get('student_id')
         title = data.get('title')
         content = data.get('content')
 
-        student = Student.query.get(student_id)
+        # Validate student_id
+        if not student_id:
+            return jsonify({'message': 'Invalid student ID'}), 400
+
+        # Use Session.get() instead of Query.get()
+        student = db.session.get(Student, student_id)
         if not student:
             return jsonify({'message': 'Student not found'}), 404
 
@@ -320,7 +324,9 @@ def send_message():
 
         return jsonify({'message': 'Message sent successfully'}), 201
     except Exception as e:
+        app.logger.error(f'Error sending message: {e}')
         return jsonify({'message': 'Error sending message', 'error': str(e)}), 500
+
 
 # Route to get all students 
 @app.route('/get-students', methods=['GET'])

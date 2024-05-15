@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import Footer from './reusable-components/Footer';
 import Header from './reusable-components/Header';
 import './sendMessage.css';
 
-export default function SendMessage({ studentId }) {
+export default function SendMessage() {
+  const { studentId } = useParams(); // Extract studentId from URL
   const [title, setTitle] = useState('');
   const [message, setMessage] = useState('');
 
@@ -18,12 +20,12 @@ export default function SendMessage({ studentId }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch('http://127.0.0.1:5000/send-message', {
+      const response = await fetch(`http://127.0.0.1:5000/send-message/${studentId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ student_id: studentId, title, content: message }),
+        body: JSON.stringify({ title, content: message }),
       });
 
       if (response.ok) {
