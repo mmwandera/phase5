@@ -23,7 +23,7 @@ export default function HomeHeader() {
           <li><Link to="/my-courses">My Courses</Link></li>
           <li><Link to="/profile">Profile</Link></li>
           <li><Link to="/about-us">About Us</Link></li>
-          <li><Link to="/contact-us">Contact Us</Link></li>
+          <li><Link to="/contact-us">Help Desk</Link></li>
           <li><Link to="/admin">Teacher&apos;s Portal</Link></li>
         </ul>
       </nav>
