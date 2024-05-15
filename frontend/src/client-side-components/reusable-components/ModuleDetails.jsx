@@ -10,18 +10,19 @@ export default function ModuleDetails({ id, title, media, notes }) {
         {media.includes('http') ? (
           <div className="media">
             <iframe
-              width="100%"
+              width="560"
               height="315"
               src={media}
               title="Embedded Video"
               frameBorder="0"
               allowFullScreen
+              className="media-content"
             ></iframe>
           </div>
         ) : (
           /* If not a video link, assume it's an image */
           <div className="media">
-            <img src={media} alt="Module Media" />
+            <img src={media} alt="Module Media" className="media-content" />
           </div>
         )}
         <div className="notes" dangerouslySetInnerHTML={{ __html: notes }}></div>
