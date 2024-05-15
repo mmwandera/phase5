@@ -356,6 +356,25 @@ def get_all_courses_for_admin():
     except Exception as e:
         logging.error(f"Error fetching courses: {e}")
         return jsonify({'message': 'Error fetching courses', 'error': str(e)}), 500
+    
+# Route to delete a course
+@app.route('/admin-course/<int:course_id>', methods=['DELETE'])
+def delete_course(course_id):
+    try:
+        course = Course.query.get(course_id)
+        if not course:
+            return jsonify({'message': 'Course not found'}), 404
+        
+        # Delete associated modules
+        Module.query.filter_by(course_id=course_id).delete()
+        
+        db.session.delete(course)
+        db.session.commit()
+        
+        return jsonify({'message': 'Course and its modules deleted successfully'}), 200
+    except Exception as e:
+        logging.error(f"Error deleting course: {e}")
+        return jsonify({'message': 'Error deleting course', 'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

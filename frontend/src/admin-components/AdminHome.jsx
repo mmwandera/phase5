@@ -9,6 +9,10 @@ export default function AdminHome() {
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
+    fetchCourses();
+  }, []);
+
+  const fetchCourses = () => {
     axios.get('http://127.0.0.1:5000/admin-course')
       .then(response => {
         setCourses(response.data.courses);
@@ -17,7 +21,19 @@ export default function AdminHome() {
       .catch(error => {
         console.error('Error fetching courses:', error);
       });
-  }, []);
+  };
+
+  const deleteCourse = (courseId) => {
+    axios.delete(`http://127.0.0.1:5000/admin-course/${courseId}`)
+      .then(response => {
+        console.log(response.data.message);
+        // Refresh the course list after deletion
+        fetchCourses();
+      })
+      .catch(error => {
+        console.error('Error deleting course:', error);
+      });
+  };
 
   return (
     <div className="admin-home">
@@ -32,9 +48,11 @@ export default function AdminHome() {
           {courses.map(course => (
             <Card
               key={course.id}
+              id={course.id}
               title={course.title}
               thumbnail={course.thumbnail}
               price={course.price}
+              onDelete={deleteCourse}
             />
           ))}
         </div>
