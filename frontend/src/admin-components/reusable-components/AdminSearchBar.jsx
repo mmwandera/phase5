@@ -14,7 +14,7 @@ export default function AdminSearchBar({ onSearch }) {
     <div className="search-bar">
       <input
         type="text"
-        placeholder="Search for admins..."
+        placeholder="Search..."
         value={query}
         onChange={handleInputChange}
       />
