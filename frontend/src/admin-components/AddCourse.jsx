@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import './addCourse.css'; // Ensure this CSS file includes styles that make the form more appealing
 import Footer from './reusable-components/Footer';
 import Header from './reusable-components/Header';
@@ -17,9 +19,9 @@ export default function AddCourse() {
     setCourse({ ...course, [e.target.name]: e.target.value });
   };
 
-  const handleModuleChange = (index, e) => {
+  const handleModuleChange = (index, value, name) => {
     const newModules = [...course.modules];
-    newModules[index] = { ...newModules[index], [e.target.name]: e.target.value };
+    newModules[index] = { ...newModules[index], [name]: value };
     setCourse({ ...course, modules: newModules });
   };
 
@@ -72,15 +74,18 @@ export default function AddCourse() {
             <div key={index} className="module-section">
               <label>
                 Module Title:
-                <input type="text" name="title" value={module.title} onChange={(e) => handleModuleChange(index, e)} />
+                <input type="text" name="title" value={module.title} onChange={(e) => handleModuleChange(index, e.target.value, 'title')} />
               </label>
               <label>
                 Module Media URL:
-                <input type="text" name="media" value={module.media} onChange={(e) => handleModuleChange(index, e)} />
+                <input type="text" name="media" value={module.media} onChange={(e) => handleModuleChange(index, e.target.value, 'media')} />
               </label>
               <label>
                 Module Notes:
-                <textarea name="notes" value={module.notes} onChange={(e) => handleModuleChange(index, e)}></textarea>
+                <ReactQuill
+                  value={module.notes}
+                  onChange={(value) => handleModuleChange(index, value, 'notes')}
+                />
               </label>
             </div>
           ))}

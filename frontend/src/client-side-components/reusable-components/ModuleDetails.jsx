@@ -24,9 +24,7 @@ export default function ModuleDetails({ id, title, media, notes }) {
             <img src={media} alt="Module Media" />
           </div>
         )}
-        <div className="notes">
-          <p>{notes}</p>
-        </div>
+        <div className="notes" dangerouslySetInnerHTML={{ __html: notes }}></div>
       </div>
     </div>
   );
