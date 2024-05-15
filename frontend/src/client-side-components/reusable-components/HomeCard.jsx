@@ -3,13 +3,15 @@ import './homeCard.css';
 export default function HomeCard({ id, thumbnail, title, modules, price, description }) {
 
   const handleCardClick = async () => {
+    const studentId = localStorage.getItem('studentId'); // Get the student ID from local storage
+
     try {
       const response = await fetch('http://127.0.0.1:5000/create-checkout-session', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ course_id: id }),
+        body: JSON.stringify({ course_id: id, student_id: studentId }),
       });
 
       const session = await response.json();
