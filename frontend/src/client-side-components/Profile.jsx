@@ -52,7 +52,7 @@ export default function Profile() {
               <MessageCards
                 key={message.id}
                 title={message.title}
-                message={message.message}
+                message={message.content}
               />
             ))
           ) : (
