@@ -7,6 +7,7 @@ import HomeSearchBar from './reusable-components/HomeSearchBar';
 
 export default function Home() {
   const [courses, setCourses] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     // Fetch data from the /courses route when the component mounts
@@ -28,17 +29,24 @@ export default function Home() {
     }
   };
 
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
+
+  const filteredCourses = courses.filter(course =>
+    course.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="home">
       <HomeHeader />
       <main className="home-main">
         <h1 className="home-welcome-message">Welcome, User</h1>
         <div className="home-search-bar-container">
-          <HomeSearchBar />
+          <HomeSearchBar onSearch={handleSearch} />
         </div>
         <div className="home-card-container">
-          {/* Render cards here */}
-          {courses.map((course, index) => (
+          {filteredCourses.map((course, index) => (
             <HomeCard
               key={index}
               id={course.id} // Pass the course ID to each HomeCard
