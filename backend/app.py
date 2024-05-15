@@ -271,5 +271,31 @@ def get_student_courses(student_id):
     except Exception as e:
         return jsonify({'message': 'Error fetching student courses', 'error': str(e)}), 500
 
+
+@app.route('/course/<int:course_id>', methods=['GET'])
+def get_course(course_id):
+    try:
+        course = Course.query.get(course_id)
+        if not course:
+            return jsonify({'message': 'Course not found'}), 404
+
+        course_data = {
+            'id': course.id,
+            'title': course.title,
+            'description': course.description,
+            'thumbnail': course.thumbnail,
+            'price': course.price,
+            'modules': [{
+                'id': module.id,
+                'title': module.title,
+                'media': module.media,
+                'notes': module.notes
+            } for module in course.modules]
+        }
+
+        return jsonify(course_data), 200
+    except Exception as e:
+        return jsonify({'message': 'Error fetching course', 'error': str(e)}), 500
+
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

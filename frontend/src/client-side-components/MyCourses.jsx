@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import "./home.css";
 import HomeCard from './reusable-components/HomeCard';
 import HomeFooter from './reusable-components/HomeFooter';
@@ -7,6 +8,7 @@ import HomeSearchBar from './reusable-components/HomeSearchBar';
 
 export default function MyCourses() {
   const [courses, setCourses] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -29,6 +31,10 @@ export default function MyCourses() {
     fetchCourses();
   }, []);
 
+  const handleCardClick = (courseId) => {
+    navigate(`/course-view/${courseId}`);
+  };
+
   return (
     <div className="home">
       <HomeHeader />
@@ -38,17 +44,17 @@ export default function MyCourses() {
           <HomeSearchBar />
         </div>
         <div className="home-card-container">
-          {/* Render courses here */}
           {courses.map((course, index) => (
-            <HomeCard
-              key={index}
-              id={course.id}
-              thumbnail={course.thumbnail}
-              description={course.description}
-              title={course.title}
-              modules={course.modules}
-              price={course.price}
-            />
+            <div key={index} onClick={() => handleCardClick(course.id)}>
+              <HomeCard
+                id={course.id}
+                thumbnail={course.thumbnail}
+                description={course.description}
+                title={course.title}
+                modules={course.modules}
+                price={course.price}
+              />
+            </div>
           ))}
         </div>
       </main>
