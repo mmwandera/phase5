@@ -34,7 +34,6 @@ export default function AdminHome() {
               key={course.id}
               title={course.title}
               thumbnail={course.thumbnail}
-              category={course.category}
               price={course.price}
             />
           ))}

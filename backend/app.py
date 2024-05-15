@@ -5,6 +5,7 @@ import jwt
 from functools import wraps
 import datetime
 from sqlalchemy.exc import IntegrityError
+import logging
 
 # Routes
 
@@ -349,11 +350,11 @@ def get_all_courses_for_admin():
             'title': course.title,
             'description': course.description,
             'thumbnail': course.thumbnail,
-            'price': course.price,
-            'category': course.category  # Assuming 'category' is a field in the Course model
+            'price': course.price
         } for course in courses]
         return jsonify({'courses': courses_list}), 200
     except Exception as e:
+        logging.error(f"Error fetching courses: {e}")
         return jsonify({'message': 'Error fetching courses', 'error': str(e)}), 500
 
 if __name__ == '__main__':
