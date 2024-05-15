@@ -301,6 +301,37 @@ def delete_message(message_id):
         app.logger.error(f'Error deleting message {message_id}: {e}')
         return jsonify({'message': 'Error deleting message', 'error': str(e)}), 500
 
+# Route for sending messages
+@app.route('/send-message', methods=['POST'])
+def send_message():
+    try:
+        data = request.get_json()
+        student_id = data.get('student_id')
+        title = data.get('title')
+        content = data.get('content')
+
+        student = Student.query.get(student_id)
+        if not student:
+            return jsonify({'message': 'Student not found'}), 404
+
+        new_message = Message(student_id=student_id, title=title, content=content)
+        db.session.add(new_message)
+        db.session.commit()
+
+        return jsonify({'message': 'Message sent successfully'}), 201
+    except Exception as e:
+        return jsonify({'message': 'Error sending message', 'error': str(e)}), 500
+
+# Route to get all students 
+@app.route('/get-students', methods=['GET'])
+def get_students():
+    try:
+        students = Student.query.all()
+        student_list = [{'id': student.id, 'username': student.username, 'email': student.email} for student in students]
+        return jsonify(student_list), 200
+    except Exception as e:
+        app.logger.error(f'Error fetching students: {e}')
+        return jsonify({'message': 'Error fetching students', 'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

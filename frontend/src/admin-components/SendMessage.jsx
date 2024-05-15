@@ -3,7 +3,7 @@ import Footer from './reusable-components/Footer';
 import Header from './reusable-components/Header';
 import './sendMessage.css';
 
-export default function SendMessage() {
+export default function SendMessage({ studentId }) {
   const [title, setTitle] = useState('');
   const [message, setMessage] = useState('');
 
@@ -15,10 +15,25 @@ export default function SendMessage() {
     setMessage(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Logic to send the message
-    console.log('Sending message:', { title, message });
+    try {
+      const response = await fetch('http://127.0.0.1:5000/send-message', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ student_id: studentId, title, content: message }),
+      });
+
+      if (response.ok) {
+        console.log('Message sent successfully');
+      } else {
+        console.error('Failed to send message');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   return (
@@ -46,7 +61,7 @@ export default function SendMessage() {
               required
             ></textarea>
           </div>
-          <button type="search-button">Send Message</button>
+          <button type="submit">Send Message</button>
         </form>
       </main>
       <Footer />
