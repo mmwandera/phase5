@@ -248,6 +248,28 @@ def create_checkout_session():
 #         return jsonify({'url': session.url})
 #     except Exception as e:
 #         return jsonify({'message': 'Error creating checkout session', 'error': str(e)}), 500
-    
+
+# Route to Fetch User's Courses
+@app.route('/student-courses/<int:student_id>', methods=['GET'])
+def get_student_courses(student_id):
+    try:
+        student = Student.query.get(student_id)
+        if not student:
+            return jsonify({'message': 'Student not found'}), 404
+
+        courses = student.courses
+        courses_list = [{
+            'id': course.id,
+            'title': course.title,
+            'description': course.description,
+            'thumbnail': course.thumbnail,
+            'price': course.price,
+            'modules': len(course.modules)  # Return the count of modules
+        } for course in courses]
+
+        return jsonify({'courses': courses_list}), 200
+    except Exception as e:
+        return jsonify({'message': 'Error fetching student courses', 'error': str(e)}), 500
+
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
