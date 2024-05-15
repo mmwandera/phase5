@@ -211,44 +211,6 @@ def create_checkout_session():
         return jsonify({'message': 'Error creating checkout session', 'error': str(e)}), 500
 
 
-# @app.route('/create-checkout-session', methods=['POST'])
-# def create_checkout_session():
-#     try:
-#         data = request.get_json()
-#         course_id = data.get('course_id')
-#         student_id = data.get('student_id')
-#         course = Course.query.get(course_id)
-
-#         if not course:
-#             return jsonify({'message': 'Course not found'}), 404
-
-#         # Create a new Stripe Checkout Session
-#         session = stripe.checkout.Session.create(
-#             payment_method_types=['card'],
-#             line_items=[{
-#                 'price_data': {
-#                     'currency': 'usd',
-#                     'product_data': {
-#                         'name': course.title,
-#                         'description': course.description,
-#                     },
-#                     'unit_amount': int(course.price * 100),  # Stripe expects the amount in cents
-#                 },
-#                 'quantity': 1,
-#             }],
-#             mode='payment',
-#             success_url='http://localhost:5173/my-courses',  # Update with your success URL
-#             cancel_url='http://localhost:5137/',    # Update with your cancel URL
-#             metadata={
-#                 'course_id': course_id,
-#                 'student_id': student_id
-#             }
-#         )
-
-#         return jsonify({'url': session.url})
-#     except Exception as e:
-#         return jsonify({'message': 'Error creating checkout session', 'error': str(e)}), 500
-
 # Route to Fetch User's Courses
 @app.route('/student-courses/<int:student_id>', methods=['GET'])
 def get_student_courses(student_id):
@@ -296,6 +258,33 @@ def get_course(course_id):
         return jsonify(course_data), 200
     except Exception as e:
         return jsonify({'message': 'Error fetching course', 'error': str(e)}), 500
+
+# Route to get user details
+@app.route('/user/<int:user_id>', methods=['GET'])
+def get_user(user_id):
+    try:
+        user = Student.query.get(user_id)
+        if not user:
+            return jsonify({'message': 'User not found'}), 404
+
+        user_data = {
+            'id': user.id,
+            'username': user.username,
+            'email': user.email
+        }
+        return jsonify(user_data), 200
+    except Exception as e:
+        return jsonify({'message': 'Error fetching user details', 'error': str(e)}), 500
+
+# Route to get user messages
+@app.route('/messages/<int:user_id>', methods=['GET'])
+def get_messages(user_id):
+    try:
+        messages = Message.query.filter_by(student_id=user_id).all()
+        messages_list = [{'id': message.id, 'title': message.title, 'content': message.content} for message in messages]
+        return jsonify(messages_list), 200
+    except Exception as e:
+        return jsonify({'message': 'Error fetching messages', 'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

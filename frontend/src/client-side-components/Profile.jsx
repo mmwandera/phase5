@@ -1,16 +1,39 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
-import messageData from './dummy-data/message-data.json';
 import './profile.css';
 import HomeFooter from './reusable-components/HomeFooter';
 import HomeHeader from './reusable-components/HomeHeader';
 import MessageCards from './reusable-components/MessageCards';
 
 export default function Profile() {
-
+  const [user, setUser] = useState({});
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    setMessages(messageData);
+    // Fetch user details
+    const fetchUserDetails = async () => {
+      try {
+        const studentId = localStorage.getItem('studentId'); // Get student ID from localStorage
+        const response = await axios.get(`http://127.0.0.1:5000/user/${studentId}`);
+        setUser(response.data);
+      } catch (error) {
+        console.error('Error fetching user details:', error);
+      }
+    };
+
+    // Fetch user messages
+    const fetchUserMessages = async () => {
+      try {
+        const studentId = localStorage.getItem('studentId'); // Get student ID from localStorage
+        const response = await axios.get(`http://127.0.0.1:5000/messages/${studentId}`);
+        setMessages(response.data);
+      } catch (error) {
+        console.error('Error fetching user messages:', error);
+      }
+    };
+
+    fetchUserDetails();
+    fetchUserMessages();
   }, []);
 
   return (
@@ -18,34 +41,23 @@ export default function Profile() {
       <HomeHeader />
       <main className="profile-main">
         <h1 className="profile-heading">Profile</h1>
-        <form className="profile-form">
-          <div className="form-group">
-            <label htmlFor="username">Username</label>
-            <input type="text" id="username" name="username" placeholder="Enter your username" />
-          </div>
-          <div className="form-group">
-            <label htmlFor="email">Email Address</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email address" disabled />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Change Password</label>
-            <input type="password" id="password" name="password" placeholder="Enter new password" />
-          </div>
-          <div className="form-group">
-            <label htmlFor="confirmPassword">Confirm Password</label>
-            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm new password" />
-          </div>
-          <button type="submit" className="confirm-button">Confirm Changes</button>
-        </form>
+        <div className="profile-details">
+          <p><strong>Username:</strong> {user.username}</p>
+          <p><strong>Email Address:</strong> {user.email}</p>
+        </div>
         <div className="messages">
           <h2 className="messages-heading">Messages</h2>
-            {messages.map(message => (
+          {messages.length > 0 ? (
+            messages.map(message => (
               <MessageCards
                 key={message.id}
                 title={message.title}
                 message={message.message}
               />
-            ))}
+            ))
+          ) : (
+            <p>No messages</p>
+          )}
         </div>
       </main>
       <HomeFooter />
