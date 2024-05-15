@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import './adminManagement.css';
 import AdminCard from './reusable-components/AdminCard';
-import AdminSearchBar from './reusable-components/AdminSearchBar';
 import Footer from './reusable-components/Footer';
 import Header from './reusable-components/Header';
 
@@ -96,9 +95,7 @@ export default function AdminManagement() {
         </div>
         <div className="admin-card-container">
           <h2 className="card-heading">Admins</h2>
-          <div className="search-bar-container">
-            <AdminSearchBar />
-          </div>
+
           <div className="card-container">
             {admins.map(admin => (
               <AdminCard

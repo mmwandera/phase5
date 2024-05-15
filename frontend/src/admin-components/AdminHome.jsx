@@ -1,12 +1,13 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import AdminSearchBar from './reusable-components/AdminSearchBar';
 import Card from './reusable-components/Card';
 import Footer from './reusable-components/Footer';
 import Header from './reusable-components/Header';
-import SearchBar from './reusable-components/SearchBar';
 
 export default function AdminHome() {
   const [courses, setCourses] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     fetchCourses();
@@ -35,17 +36,25 @@ export default function AdminHome() {
       });
   };
 
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
+
+  const filteredCourses = courses.filter(course =>
+    course.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="admin-home">
       <Header />
       <main className="admin-main">
         <h1 className="welcome-message">Welcome, User</h1>
         <div className="search-bar-container">
-          <SearchBar />
+          <AdminSearchBar onSearch={handleSearch} />
         </div>
         <h2 className="courses-heading">My Courses</h2>
         <div className="card-container">
-          {courses.map(course => (
+          {filteredCourses.map(course => (
             <Card
               key={course.id}
               id={course.id}

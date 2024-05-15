@@ -8,6 +8,7 @@ import UserSearchBar from './reusable-components/UserSearchBar';
 export default function UserManagement() {
   const [students, setStudents] = useState([]); // Ensure initial state is an array
   const [selectedStudentId, setSelectedStudentId] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     // Fetch students
@@ -32,6 +33,14 @@ export default function UserManagement() {
     setSelectedStudentId(studentId);
   };
 
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
+
+  const filteredStudents = students.filter(student =>
+    student.username.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="admin-management">
       <Header />
@@ -39,10 +48,10 @@ export default function UserManagement() {
         <div className="admin-card-container">
           <h2 className="card-heading">Students</h2>
           <div className="search-bar-container">
-            <UserSearchBar />
+            <UserSearchBar onSearch={handleSearch} />
           </div>
           <div className="card-container">
-            {students.map(student => (
+            {filteredStudents.map(student => (
               <UserCard
                 key={student.id}
                 id={student.id}
