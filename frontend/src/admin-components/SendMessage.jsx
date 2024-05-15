@@ -8,6 +8,7 @@ export default function SendMessage() {
   const { studentId } = useParams(); // Extract studentId from URL
   const [title, setTitle] = useState('');
   const [message, setMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState(''); // State for success message
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
@@ -29,7 +30,7 @@ export default function SendMessage() {
       });
 
       if (response.ok) {
-        console.log('Message sent successfully');
+        setSuccessMessage('Message sent successfully'); // Set success message
       } else {
         console.error('Failed to send message');
       }
@@ -65,6 +66,7 @@ export default function SendMessage() {
           </div>
           <button type="submit">Send Message</button>
         </form>
+        {successMessage && <p className="success-message">{successMessage}</p>} {/* Display success message */}
       </main>
       <Footer />
     </div>
